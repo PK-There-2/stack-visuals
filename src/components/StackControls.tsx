@@ -10,10 +10,13 @@ interface StackControlsProps {
   onPop: () => void;
   onPeek: () => void;
   onIsEmpty: () => void;
+  onIsFull: () => void;
   onReturn: () => void;
   stackSize: number;
+  maxSize: number;
   peekValue: string | null;
   isEmpty: boolean;
+  isFull: boolean;
   disabled?: boolean;
 }
 
@@ -22,15 +25,19 @@ export const StackControls: React.FC<StackControlsProps> = ({
   onPop,
   onPeek,
   onIsEmpty,
+  onIsFull,
   onReturn,
   stackSize,
+  maxSize,
   peekValue,
   isEmpty,
+  isFull,
   disabled = false,
 }) => {
   const [pushValue, setPushValue] = useState('');
   const [showPeekResult, setShowPeekResult] = useState(false);
   const [showEmptyResult, setShowEmptyResult] = useState(false);
+  const [showFullResult, setShowFullResult] = useState(false);
 
   const handlePush = () => {
     if (pushValue.trim()) {
@@ -49,6 +56,12 @@ export const StackControls: React.FC<StackControlsProps> = ({
     onIsEmpty();
     setShowEmptyResult(true);
     setTimeout(() => setShowEmptyResult(false), 3000);
+  };
+
+  const handleIsFull = () => {
+    onIsFull();
+    setShowFullResult(true);
+    setTimeout(() => setShowFullResult(false), 3000);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -94,7 +107,7 @@ export const StackControls: React.FC<StackControlsProps> = ({
               <Button
                 variant="lab"
                 onClick={handlePush}
-                disabled={!pushValue.trim() || disabled}
+                disabled={!pushValue.trim() || disabled || isFull}
                 className="gap-2 min-w-[100px]"
               >
                 <Plus size={16} />
@@ -104,7 +117,7 @@ export const StackControls: React.FC<StackControlsProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Button
               variant="destructive"
               onClick={onPop}
@@ -133,6 +146,16 @@ export const StackControls: React.FC<StackControlsProps> = ({
             >
               <CheckCircle size={16} />
               isEmpty
+            </Button>
+            
+            <Button
+              variant="secondary"
+              onClick={handleIsFull}
+              disabled={disabled}
+              className="gap-2 font-semibold"
+            >
+              <CheckCircle size={16} />
+              isFull
             </Button>
           </div>
         </CardContent>
@@ -176,14 +199,47 @@ export const StackControls: React.FC<StackControlsProps> = ({
             </CardContent>
           </Card>
         )}
+
+        {/* isFull Result */}
+        {showFullResult && (
+          <Card className={cn(
+            "border-secondary animate-fade-slide-up",
+            isFull ? "bg-secondary/20" : "bg-muted/20"
+          )}>
+            <CardContent className="p-4">
+              <div className="text-center">
+                <div className="text-sm text-muted-foreground mb-1">isFull Result:</div>
+                <div className={cn(
+                  "text-lg font-bold",
+                  isFull ? "text-secondary" : "text-muted-foreground"
+                )}>
+                  {isFull ? 'true' : 'false'}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {/* Stack Info */}
       <Card className="bg-muted/10 border-muted">
         <CardContent className="p-4">
           <div className="text-center space-y-2">
-            <div className="text-sm text-muted-foreground">Current Stack Size</div>
-            <div className="text-2xl font-bold text-primary">{stackSize}</div>
+            <div className="text-sm text-muted-foreground">Stack Status</div>
+            <div className="flex justify-center gap-4">
+              <div className="text-center">
+                <div className="text-lg font-bold text-primary">{stackSize}</div>
+                <div className="text-xs text-muted-foreground">Current</div>
+              </div>
+              <div className="text-muted-foreground">/</div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-secondary">{maxSize}</div>
+                <div className="text-xs text-muted-foreground">Max</div>
+              </div>
+            </div>
+            {isFull && (
+              <div className="text-xs text-secondary font-semibold mt-2">Stack is Full!</div>
+            )}
           </div>
         </CardContent>
       </Card>

@@ -20,8 +20,8 @@ export const StackVisualization: React.FC<StackVisualizationProps> = ({
   return (
     <div className={cn("flex flex-col-reverse items-center gap-2 min-h-[400px] p-4", className)}>
       {/* Stack base */}
-      <div className="w-48 h-4 bg-gradient-primary rounded-lg shadow-primary relative">
-        <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground font-medium">
+      <div className="w-48 h-4 bg-gradient-primary rounded-lg shadow-primary relative mb-4">
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-primary font-semibold whitespace-nowrap">
           STACK BASE
         </div>
       </div>

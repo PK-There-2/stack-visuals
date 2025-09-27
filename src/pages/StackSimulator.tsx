@@ -14,11 +14,12 @@ export const StackSimulator: React.FC = () => {
   const [stack, setStack] = useState<StackItem[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const { toast } = useToast();
+  const MAX_STACK_SIZE = 8; // Maximum capacity for the stack
 
   const generateId = () => Math.random().toString(36).substr(2, 9);
 
   const push = useCallback((value: string) => {
-    if (isAnimating) return;
+    if (isAnimating || stack.length >= MAX_STACK_SIZE) return;
     
     const newItem: StackItem = {
       id: generateId(),
@@ -98,6 +99,14 @@ export const StackSimulator: React.FC = () => {
     });
   }, [stack, toast]);
 
+  const isFull = useCallback(() => {
+    const full = stack.length >= MAX_STACK_SIZE;
+    toast({
+      title: "isFull Operation",
+      description: `Stack is ${full ? 'full' : 'not full'} (${stack.length}/${MAX_STACK_SIZE})`,
+    });
+  }, [stack, MAX_STACK_SIZE, toast]);
+
   const handleReturn = () => {
     // In a real app, this would navigate back to the main lab page
     toast({
@@ -108,6 +117,7 @@ export const StackSimulator: React.FC = () => {
 
   const peekValue = stack.length > 0 ? stack[stack.length - 1].value : null;
   const stackIsEmpty = stack.length === 0;
+  const stackIsFull = stack.length >= MAX_STACK_SIZE;
 
   return (
     <div className="min-h-screen bg-background">
@@ -148,10 +158,13 @@ export const StackSimulator: React.FC = () => {
               onPop={pop}
               onPeek={peek}
               onIsEmpty={isEmpty}
+              onIsFull={isFull}
               onReturn={handleReturn}
               stackSize={stack.length}
+              maxSize={MAX_STACK_SIZE}
               peekValue={peekValue}
               isEmpty={stackIsEmpty}
+              isFull={stackIsFull}
               disabled={isAnimating}
             />
           </div>
@@ -177,6 +190,10 @@ export const StackSimulator: React.FC = () => {
               <div>
                 <h4 className="text-lg font-semibold text-success mb-2">isEmpty</h4>
                 <p>Checks if the stack contains any elements. Returns true if empty, false otherwise.</p>
+              </div>
+              <div>
+                <h4 className="text-lg font-semibold text-secondary mb-2">isFull</h4>
+                <p>Checks if the stack has reached its maximum capacity. Returns true when full (8 elements).</p>
               </div>
             </div>
           </div>
