@@ -15,6 +15,11 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Virtual Lab themed variants
+        lab: "bg-gradient-primary text-foreground font-semibold shadow-primary hover:shadow-glow transform hover:scale-105 transition-all duration-300",
+        "lab-purple": "bg-gradient-purple text-foreground font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300",
+        "lab-success": "bg-success text-success-foreground hover:bg-success/90 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300",
+        "lab-outline": "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground font-semibold transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",
