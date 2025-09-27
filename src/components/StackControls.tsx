@@ -74,6 +74,7 @@ export const StackControls: React.FC<StackControlsProps> = ({
     <div className="space-y-6">
       {/* Return Button */}
       <div className="flex justify-start">
+        <a href="https://vlabds.netlify.app/lab" target="_blank" rel="noopener noreferrer">
         <Button
           variant="lab-outline"
           onClick={onReturn}
@@ -82,6 +83,7 @@ export const StackControls: React.FC<StackControlsProps> = ({
           <ArrowLeft size={16} />
           Return to Lab
         </Button>
+        </a>
       </div>
 
       {/* Main Controls */}
