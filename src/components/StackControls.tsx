@@ -74,7 +74,7 @@ export const StackControls: React.FC<StackControlsProps> = ({
     <div className="space-y-6">
       {/* Return Button */}
       <div className="flex justify-start">
-        <a href="C:\xampp\htdocs\Prathamesh\DS-V-LAB\lab.php" target="_blank" rel="noopener noreferrer">
+        <a href="https://vlabds.netlify.app/lab" target="_blank" rel="noopener noreferrer">
         <Button
           variant="lab-outline"
           onClick={onReturn}
